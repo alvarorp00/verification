@@ -1,0 +1,3 @@
+[submodule "liquid-haskell/liquidhaskell-cabal"]
+	path = liquid-haskell/liquidhaskell-cabal
+	url = https://github.com/spinda/liquidhaskell-cabal
