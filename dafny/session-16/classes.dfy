@@ -137,7 +137,7 @@ ensures max(height(l), height(r)) <= height(res) <= max(height(l), height(r)) + 
 
 class Node {
     var val: int;
-    var next: Node?    
+    var next: Node?    // ? means that it is nullable
     ghost var repr: set<object>;
     ghost var model : seq<int>;
 
@@ -175,7 +175,25 @@ class Node {
     }
      
     method append (node: Node)
+    modifies repr
+    requires Valid()
+    requires node.Valid()
+    requires forall o :: o in repr ==> o !in node.repr
+    requires node !in repr
+    decreases repr
+    ensures Valid()
+    ensures repr == old(repr) + node.repr
     ensures model == old(model) + node.model
+    {
+        if next == null {
+            next := node;
+        }
+        else {
+            next.append(node);
+        }
+        repr := repr + node.repr;
+        model := model + node.model;
+    }
 }
 
 class List {
@@ -220,6 +238,7 @@ class List {
     modifies this
     requires Valid()
     ensures Valid()
+    ensures fresh(repr - old(repr))  // since we are adding a new node, we expect a new fresh object
     ensures model == [v] + old(model)
     {
         var node := new Node(v);  
@@ -238,7 +257,21 @@ class List {
 
     // This method adds an element to the end of the list
     method append(v: int)
-    ensures model == old(model)+ [v]
+    modifies repr
+    requires Valid()
+    decreases repr
+    ensures Valid()
+    ensures model == old(model) + [v]
+    {
+        var node := new Node(v);
+        if first == null {
+            first := node;
+        } else {
+            first.append(node);
+        }
+        repr := repr + {node};
+        model := model + [v];
+    }
 }
 
 method Main ()
@@ -304,6 +337,3 @@ ensures tset(res) == tset(l) + {x} + tset(r)
 // 6. Take the WilliamsHeap file given in Session 16, enrich it with a model function, and prove
 // a postcondition in the heapsort algorithm showing that the final array is sorted. Choose as
 // model for a heap the multiset of its elements.
-
-
-
