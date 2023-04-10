@@ -130,6 +130,8 @@ method Main ()
 
 /* METHOD TO SOLVE */
 
+// This method checks whether the first element of the list is equal to v
+// If it is, it deletes it. If not, it calls a recursive method written below.
 method deleteFirstVal(l:List, v:int)
 modifies l, l.repr
 requires l.Valid()
@@ -158,6 +160,13 @@ ensures l.Valid()
  * This method deletes the first occurrence of v in the list starting at prev.next
  * If search is true, then we are searching the first occurrence of v
  * If search is false, then we are shifting the list to the left as v was already found
+ *
+ * Note that search is just a parameter to avoid code duplication as we separate the codeflow
+ * on the same method, so calling this method with search = false at the start will just cause
+ * the code to shift the list to the left one position, hence deleting the first element
+ *
+ * It's possibly not the best solution but I couldn't manage to come up with a better one
+ * so I tried to make it as clear as possible.
 */
 method deleteFirstValNode(prev:Node, next:Node, v:int, search:bool)
 modifies prev, prev.repr
