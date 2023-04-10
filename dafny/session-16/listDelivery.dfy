@@ -134,6 +134,9 @@ method deleteFirstVal(l:List, v:int)
 modifies l, l.repr
 requires l.Valid()
 ensures fresh(l.repr - old(l.repr))
+ensures (v in l.model) ==> (l.repr != old(l.repr))
+// I don't know how to express more precisely the postcondition about the element removal
+// --> possible idea: have a method that returns the number of occurrences of v in l.model
 ensures l.Valid()
 {
     if (l.first != null) {
