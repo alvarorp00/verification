@@ -167,6 +167,11 @@ ensures l.Valid()
  *
  * It's possibly not the best solution but I couldn't manage to come up with a better one
  * so I tried to make it as clear as possible.
+ *
+ * Cost:
+ *  - Best case: O(N), do a linear search and don't find v
+ *  - Average case: O(2*N), do a linear search and find v, then shift the list to the left and
+ *                  update the model and repr backwards.
 */
 method deleteFirstValNode(prev:Node, next:Node, v:int, search:bool)
 modifies prev, prev.repr
