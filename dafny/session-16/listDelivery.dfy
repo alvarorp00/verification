@@ -132,14 +132,15 @@ method Main ()
 
 // This method checks whether the first element of the list is equal to v
 // If it is, it deletes it. If not, it calls a recursive method written below.
-method deleteFirstVal(l:List, v:int)
+method deleteFirstValList(l:List, v:int)
 modifies l, l.repr
 requires l.Valid()
 ensures fresh(l.repr - old(l.repr))
-ensures (v in l.model) ==> (l.repr != old(l.repr))
 // I don't know how to express more precisely the postcondition about the element removal
 // --> possible idea: have a method that returns the number of occurrences of v in l.model
 ensures l.Valid()
+ensures (v in l.model) ==> (l.repr != old(l.repr))
+ensures (v in l.model) ==> (l.length() == old(l.length()) - 1)  // This must be written below l.Valid()
 {
     if (l.first != null) {
         if (l.first.val == v) {
@@ -148,7 +149,7 @@ ensures l.Valid()
             l.repr := {l} + (if l.first == null then {} else l.first.repr);
         } else {
             if (l.first.next != null) {
-                deleteFirstValNode(l.first, l.first.next, v, true);
+                deleteFirstValNode(l.first, l.first.next, v);
                 l.model := [] + l.first.model;
                 l.repr := {l} + l.first.repr;
             }
@@ -158,14 +159,8 @@ ensures l.Valid()
 
 /*
  * This method deletes the first occurrence of v in the list starting at prev.next
- * If search is true, then we are searching the first occurrence of v
- * If search is false, then we are shifting the list to the left as v was already found
  *
- * Note that search is just a parameter to avoid code duplication as we separate the codeflow
- * on the same method, so calling this method with search = false at the start will just cause
- * the code to shift the list to the left one position, hence deleting the first element
- *
- * It's possibly not the best solution but I couldn't manage to come up with a better one
+ * It's possibly not the best solution but I couldn't manage to come up with a better one,
  * so I tried to make it as clear as possible.
  *
  * Cost:
@@ -173,69 +168,74 @@ ensures l.Valid()
  *  - Average case: O(2*N), do a linear search and find v, then shift the list to the left and
  *                  update the model and repr backwards.
 */
-method deleteFirstValNode(prev:Node, next:Node, v:int, search:bool)
+method deleteFirstValNode(prev:Node, next:Node, v:int)
 modifies prev, prev.repr
 requires prev.Valid()
 requires next.Valid()
 requires prev.next == next
 decreases prev.repr
 ensures fresh(prev.repr - old(prev.repr))
-ensures (v in prev.model) ==> (prev.repr != old(prev.repr))
-ensures !search ==> (prev.repr != old(prev.repr))  // We're shifting the list to the left
-ensures search && old(prev.val) == v ==> (prev.val == old(next.val))  // We're searching the first occurrence of v
 ensures prev.Valid()
 ensures next.Valid()
+ensures (v in prev.model) ==> (prev.repr != old(prev.repr))
+ensures (v in prev.model) ==> (prev.length() == old(prev.length()) - 1)
 {
-    if (search) {
-        if (prev.val == v) {
-            prev.val := next.val;
-            if (next.next == null) {
+    if (prev.val == v) {
+        assert v in prev.model;
+        prev.val := next.val;
+        if (next.next == null) {
+            prev.next := null;
+            prev.model := [prev.val];
+            prev.repr := {prev};
+            assert old(prev.length()) == (prev.length() + 1);
+        } else {
+            shiftLeftRec(next, next.next);
+            prev.model := [prev.val] + next.model;
+            prev.repr := {prev} + next.repr;
+        }
+    } else {
+        if (next.next == null) {
+            if (next.val == v) {
+                assert v in prev.model;
+                // Value found at the end of the list
                 prev.next := null;
                 prev.model := [prev.val];
                 prev.repr := {prev};
             } else {
-                deleteFirstValNode(next, next.next, v, false);
-                prev.model := [prev.val] + next.model;
-                prev.repr := {prev} + next.repr;
+                assert v !in prev.model;
             }
         } else {
-            if (next.next == null) {
-                if (next.val == v) {
-                    // Value found at the end of the list
-                    prev.next := null;
-                    prev.model := [prev.val];
-                    prev.repr := {prev};
-                } else {
-                    // Value not found
-                    next.next := null;
-                    next.model := [next.val];
-                    next.repr := {next};
-                    
-                    prev.next := next;
-                    prev.model := [prev.val] + [next.val];
-                    prev.repr := {prev} + {next};
-                }
-            } else {
-                deleteFirstValNode(next, next.next, v, true);
-                prev.model := [prev.val] + next.model;
-                prev.repr := {prev} + next.repr;
-            }
-        }
-    } else {  // We've already found the value
-        // We don't care about val, we just shift the values to the left
-        if (next.next == null) {
-            prev.val := next.val;
-            prev.next := null;
-            prev.model := [prev.val];
-            prev.repr := {prev};
-        } else {
-            prev.val := next.val;
-            deleteFirstValNode(next, next.next, v, false);
+            deleteFirstValNode(next, next.next, v);
+            
             prev.model := [prev.val] + next.model;
             prev.repr := {prev} + next.repr;
         }
+    }
+}
 
-        // assert prev.Valid();
-        // assert next.Valid();
+method shiftLeftRec(prev:Node, next:Node)
+modifies prev, prev.repr
+requires prev.Valid()
+requires next.Valid()
+requires prev.next == next
+decreases prev.repr
+ensures fresh(prev.repr - old(prev.repr))
+ensures prev.repr != old(prev.repr)
+ensures prev.val == old(next.val)
+ensures old(prev.model) == [old(prev.val)] + prev.model
+ensures prev.Valid()
+ensures next.Valid()
+ensures prev.length() == old(prev.length()) - 1
+{
+    if (next.next == null) {
+        prev.val := next.val;
+        prev.next := null;
+        prev.model := [prev.val];
+        prev.repr := {prev};
+    } else {
+        prev.val := next.val;
+        shiftLeftRec(next, next.next);
+        prev.model := [prev.val] + next.model;
+        prev.repr := {prev} + next.repr;
     }
 }
