@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>src/Demo/Lib.hs</title>
+</head>
+<head>
+<link type='text/css' rel='stylesheet' href='liquid.css' />
+</head>
+
+<body>
+<hr>
+Put mouse over identifiers to see inferred types
+<pre><span class=hs-linenum> 1: </span><a class=annot href="#"><span class=annottext>GHC.Types.Module</span><span class='hs-keyword'>module</span></a> <span class='hs-conid'>Demo.Lib</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum> 2: </span>
+<span class=hs-linenum> 3: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Data.Set</span>
+<span class=hs-linenum> 4: </span>
+<span class=hs-linenum> 5: </span><span class='hs-keyword'>{-@</span> <span class='hs-keyword'>type</span> <span class='hs-conid'>Pos</span> <span class='hs-keyglyph'>=</span> <span class='hs-layout'>{</span><span class='hs-varid'>v</span><span class='hs-conop'>:</span><span class='hs-conid'>Int</span> <span class='hs-keyglyph'>|</span> <span class='hs-num'>0</span> <span class='hs-varop'>&lt;</span> <span class='hs-varid'>v</span><span class='hs-layout'>}</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum> 6: </span>
+<span class=hs-linenum> 7: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>incr</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Pos</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Pos</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum> 8: </span><span class='hs-definition'>incr</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Int</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Int</span>
+<span class=hs-linenum> 9: </span><a class=annot href="#"><span class=annottext>{VV : GHC.Types.Int | 0 &lt; VV} -&gt; {VV : GHC.Types.Int | 0 &lt; VV}</span><span class='hs-definition'>incr</span></a> <a class=annot href="#"><span class=annottext>{VV : GHC.Types.Int | 0 &lt; VV}</span><span class='hs-varid'>x</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == x
+                     &amp;&amp; 0 &lt; v}</span><span class='hs-varid'>x</span></a> <span class='hs-varop'>+</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-num'>1</span></a>
+<span class=hs-linenum>10: </span>
+<span class=hs-linenum>11: </span>
+<span class=hs-linenum>12: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>measure</span> <span class='hs-varid'>elts</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>13: </span><span class='hs-definition'>elts</span>        <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Ord</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Set</span> <span class='hs-varid'>a</span>
+<span class=hs-linenum>14: </span><a class=annot href="#"><span class=annottext>forall a .
+(GHC.Classes.Ord&lt;[]&gt; a) =&gt;
+x2:[a] -&gt; {VV : (Data.Set.Internal.Set a) | VV == elts x2}</span><span class='hs-definition'>elts</span></a> <span class='hs-conid'>[]</span>     <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+      {v : (Data.Set.Internal.Set a) | Set_emp v} | VV == empty}</span><span class='hs-varid'>empty</span></a>
+<span class=hs-linenum>15: </span><span class='hs-definition'>elts</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span><span class='hs-conop'>:</span><span class='hs-varid'>xs</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : (Data.Set.Internal.Set a) | v == Set_sng x}</span><span class='hs-varid'>singleton</span></a> <a class=annot href="#"><span class=annottext>{VV : a | VV == x}</span><span class='hs-varid'>x</span></a> <span class='hs-varop'>`union`</span> <a class=annot href="#"><span class=annottext>{v : (Data.Set.Internal.Set a) | v == elts xs}</span><span class='hs-varid'>elts</span></a> <a class=annot href="#"><span class=annottext>{v : [a] | v == xs
+           &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>xs</span></a>
+<span class=hs-linenum>16: </span>
+<span class=hs-linenum>17: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>rev</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>xs</span><span class='hs-conop'>:</span><span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>{v:</span><span class='hs-keyword'>_</span> <span class='hs-keyword'>| elts v == elts xs}</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>18: </span><span class='hs-definition'>rev</span> <span class='hs-keyglyph'>::</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span>
+<span class=hs-linenum>19: </span><a class=annot href="#"><span class=annottext>forall a . x1:[a] -&gt; {v : [a] | elts v == elts x1}</span><span class='hs-definition'>rev</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : [a] | Set_emp (listElts v)
+           &amp;&amp; elts v == Set_empty 0
+           &amp;&amp; len v == 0}</span><span class='hs-varid'>go</span></a> <a class=annot href="#"><span class=annottext>{VV : forall a &lt;p :: a a -&gt; Bool&gt;.
+      {v : [a]&lt;\x3 VV -&gt; {VV : a&lt;p x3&gt; | true}&gt; | Set_emp (listElts v)
+                                                  &amp;&amp; elts v == Set_empty 0
+                                                  &amp;&amp; len v == 0} | VV == []}</span><span class='hs-conid'>[]</span></a> 
+<span class=hs-linenum>20: </span>  <span class='hs-keyword'>where</span>
+<span class=hs-linenum>21: </span>    <span class='hs-keyword'>{-@</span> <span class='hs-varid'>go</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>acc</span><span class='hs-conop'>:</span><span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>xs</span><span class='hs-conop'>:</span><span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>{v:</span><span class='hs-keyword'>_</span> <span class='hs-keyword'>| elts v == union (elts acc) (elts xs)}</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>22: </span>    <a class=annot href="#"><span class=annottext>x1:{VV : [a] | len VV &gt;= 0} -&gt; x2:{VV : [a] | len VV &gt;= 0} -&gt; {v : [a] | elts v == Set_cup (elts x1) (elts x2)}</span><span class='hs-varid'>go</span></a> <a class=annot href="#"><span class=annottext>{VV : [a] | len VV &gt;= 0}</span><span class='hs-varid'>acc</span></a> <span class='hs-conid'>[]</span>     <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : [a] | v == acc
+           &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>acc</span></a>
+<span class=hs-linenum>23: </span>    <span class='hs-varid'>go</span> <span class='hs-varid'>acc</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span><span class='hs-conop'>:</span><span class='hs-varid'>xs</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>x1:{VV : [a] | len VV &gt;= 0} -&gt; x2:{VV : [a] | len VV &gt;= 0} -&gt; {v : [a] | elts v == Set_cup (elts x1) (elts x2)}</span><span class='hs-varid'>go</span></a> <a class=annot href="#"><span class=annottext>{v : [a] | elts v == Set_cup (Set_sng x) (elts acc)
+           &amp;&amp; head v == x
+           &amp;&amp; len v == 1 + len acc
+           &amp;&amp; listElts v == Set_cup (Set_sng x) (listElts acc)
+           &amp;&amp; tail v == acc}</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>{VV : a | VV == x}</span><span class='hs-varid'>x</span></a><span class='hs-conop'>:</span><a class=annot href="#"><span class=annottext>{v : [a] | v == acc
+           &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>acc</span></a><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : [a] | v == xs
+           &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>xs</span></a>
+</pre>
+</body>
+</html>

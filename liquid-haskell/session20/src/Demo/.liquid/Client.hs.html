@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>/home/alvarorp00/Documents/uam/master/verification/liquid-haskell/session20/src/Demo/Client.hs</title>
+</head>
+<head>
+<link type='text/css' rel='stylesheet' href='liquid.css' />
+</head>
+
+<body>
+<hr>
+Put mouse over identifiers to see inferred types
+<pre><span class=hs-linenum> 1: </span><a class=annot href="#"><span class=annottext>GHC.Types.Module</span><span class='hs-keyword'>{-@</span></a> <span class='hs-conid'>LIQUID</span> <span class='hs-str'>"--reflection"</span>     <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum> 2: </span><span class='hs-keyword'>{-@</span> <span class='hs-conid'>LIQUID</span> <span class='hs-str'>"--ple"</span>            <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum> 3: </span><span class='hs-keyword'>{-@</span> <span class='hs-conid'>LIQUID</span> <span class='hs-str'>"--no-termination"</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum> 4: </span>
+<span class=hs-linenum> 5: </span><span class='hs-keyword'>module</span> <span class='hs-conid'>Demo.Client</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum> 6: </span>
+<span class=hs-linenum> 7: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Language.Haskell.Liquid.Equational</span>
+<span class=hs-linenum> 8: </span>
+<span class=hs-linenum> 9: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Demo.Lib</span>
+<span class=hs-linenum>10: </span>
+<span class=hs-linenum>11: </span><span class='hs-definition'>bump</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Int</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Int</span>
+<span class=hs-linenum>12: </span><a class=annot href="#"><span class=annottext>GHC.Types.Int -&gt; GHC.Types.Int</span><span class='hs-definition'>bump</span></a> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-varid'>n</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>if</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == n}</span><span class='hs-varid'>n</span></a> <span class='hs-varop'>&gt;</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-num'>0</span></a> <span class='hs-keyword'>then</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | 0 &lt; v} -&gt; {v : GHC.Types.Int | 0 &lt; v}</span><span class='hs-varid'>incr</span></a> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == n}</span><span class='hs-varid'>n</span></a> <span class='hs-keyword'>else</span> <a class=annot href="#"><span class=annottext>{v : GHC.Prim.Int# | v == 0}</span><span class='hs-num'>0</span></a>
+<span class=hs-linenum>13: </span>
+<span class=hs-linenum>14: </span><span class='hs-keyword'>data</span> <span class='hs-conid'>Simple</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>A</span> <span class='hs-keyglyph'>|</span> <span class='hs-conid'>B</span> <span class='hs-keyglyph'>|</span> <span class='hs-conid'>C</span>
+<span class=hs-linenum>15: </span>
+<span class=hs-linenum>16: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>reflect</span> <span class='hs-varid'>test</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>17: </span><span class='hs-definition'>test</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Simple</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Maybe</span> <span class='hs-conid'>Bool</span>
+<span class=hs-linenum>18: </span><a class=annot href="#"><span class=annottext>x1:Demo.Client.Simple -&gt; {VV : (GHC.Maybe.Maybe GHC.Types.Bool) | VV == test x1}</span><span class='hs-definition'>test</span></a> <span class='hs-conid'>A</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+      x1:a -&gt; {v : (GHC.Maybe.Maybe a) | v == Just x1
+                                         &amp;&amp; lqdc##$select v == x1} | VV == Just}</span><span class='hs-conid'>Just</span></a> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Bool | v
+                      &amp;&amp; v == True}</span><span class='hs-conid'>True</span></a>
+<span class=hs-linenum>19: </span><span class='hs-definition'>test</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+      {v : (GHC.Maybe.Maybe a) | v == Nothing} | VV == Nothing}</span><span class='hs-conid'>Nothing</span></a>
+<span class=hs-linenum>20: </span>
+<span class=hs-linenum>21: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>testProof</span> <span class='hs-keyglyph'>::</span> <span class='hs-keyword'>{test A == Just True}</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>22: </span><span class='hs-definition'>testProof</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Proof</span>
+<span class=hs-linenum>23: </span><a class=annot href="#"><span class=annottext>{VV : () | test A == Just true}</span><span class='hs-definition'>testProof</span></a> <span class='hs-keyglyph'>=</span>
+<span class=hs-linenum>24: </span>  <a class=annot href="#"><span class=annottext>{v : (GHC.Maybe.Maybe GHC.Types.Bool) | v == test A}</span><span class='hs-varid'>test</span></a> <a class=annot href="#"><span class=annottext>{v : Demo.Client.Simple | v == A}</span><span class='hs-conid'>A</span></a> <span class='hs-varop'>==.</span> <a class=annot href="#"><span class=annottext>{v : (GHC.Maybe.Maybe GHC.Types.Bool) | v == Just True
+                                        &amp;&amp; lqdc##$select v == True}</span><span class='hs-conid'>Just</span></a> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Bool | v
+                      &amp;&amp; v == True}</span><span class='hs-conid'>True</span></a>
+<span class=hs-linenum>25: </span>  <span class='hs-varop'>***</span> <a class=annot href="#"><span class=annottext>{v : Language.Haskell.Liquid.Equational.QED | v == QED}</span><span class='hs-conid'>QED</span></a>
+<span class=hs-linenum>26: </span>
+</pre>
+</body>
+</html>
