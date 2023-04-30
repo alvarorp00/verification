@@ -2,6 +2,7 @@
 module LHExercises where
 
 import Data.Maybe as Maybe
+import Data.Tuple as Tuple
 
 -- import Prelude
 
@@ -107,14 +108,14 @@ rot f b acc
 -- ##########
 
 -- Safe remove
-{-@ remove :: qi:QueueN a {qsize qi} -> {mq: Maybe (QueueN a {qsize qi - 1}) | qsize qi > 0 ==> isJust mq } @-}
+{-@ remove :: qi:QueueN a {qsize qi} -> mq: Maybe (a, QueueN a {qsize qi - 1}) @-}
 remove qi@(Q f b)
   | size f == 0 && size b == 0 = Nothing
-  | otherwise = Just (makeq (tl f) b)
+  | size f == 0 = Just (hd (rot b nil nil), Q (rot b nil nil) nil)
+  | otherwise = Just (hd f, makeq (tl f) b)
 
 
--- remove :: Queue a -> Queue a
-
+{-@ okRemove :: Maybe (_, QueueN _ 1) @-}
 okRemove = remove example2Q -- accept
 
 badRemove = remove example0Q -- reject
