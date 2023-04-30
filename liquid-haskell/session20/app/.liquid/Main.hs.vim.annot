@@ -1,3 +1,3 @@
 1:1-1:1::Main.$trModule :: "GHC.Types.Module"
 9:1-9:5:::Main.main :: "(GHC.Types.IO ())"
-10:14-10:28::lq_anf$##7205759403792842302 :: "[GHC.Types.Char]"
+10:14-10:28::lq_anf$##7205759403794173604 :: "[GHC.Types.Char]"
