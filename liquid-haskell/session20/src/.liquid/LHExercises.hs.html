@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
 <head>
-<title>src/LHExercises.hs</title>
+<title>/home/alvarorp00/Documents/uam/master/verification/liquid-haskell/session20/src/LHExercises.hs</title>
 </head>
 <head>
 <link type='text/css' rel='stylesheet' href='liquid.css' />
@@ -16,7 +16,7 @@ Put mouse over identifiers to see inferred types
 <span class=hs-linenum>  4: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Data.Maybe</span> <span class='hs-keyword'>as</span> <span class='hs-conid'>Maybe</span>
 <span class=hs-linenum>  5: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Data.Tuple</span> <span class='hs-keyword'>as</span> <span class='hs-conid'>Tuple</span>
 <span class=hs-linenum>  6: </span>
-<span class=hs-linenum>  7: </span><span class='hs-comment'>-- import Prelude</span>
+<span class=hs-linenum>  7: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Prelude</span> <span class='hs-varid'>hiding</span> <span class='hs-layout'>(</span><span class='hs-varid'>replicate</span><span class='hs-layout'>)</span>
 <span class=hs-linenum>  8: </span>
 <span class=hs-linenum>  9: </span><span class='hs-comment'>-- Exercise 1:  Define a Skew heap in Liquid Haskell and implement</span>
 <span class=hs-linenum> 10: </span><span class='hs-comment'>-- and verify its operation join, joining two skew heaps </span>
@@ -218,19 +218,26 @@ x1:{VV : (LHExercises.Queue a) | qsize VV &gt; 0} -&gt; (a, {VV : (LHExercises.Q
 <span class=hs-linenum>136: </span>
 <span class=hs-linenum>137: </span><span class='hs-comment'>-- TODO</span>
 <span class=hs-linenum>138: </span><span class='hs-comment'>-- | Insert an element into a queue</span>
-<span class=hs-linenum>139: </span><span class='hs-comment'>-- {-@ insert :: x:a -&gt; qi:Queue a -&gt; QueueN a {qsize qi + 1} @-}</span>
-<span class=hs-linenum>140: </span><span class='hs-comment'>-- insert e (Q f b) = makeq f (e `cons` b)</span>
+<span class=hs-linenum>139: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>insert</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>x</span><span class='hs-conop'>:</span><span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>qi</span><span class='hs-conop'>:</span><span class='hs-conid'>QueueN</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>{qsize qi}</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>QueueN</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>{qsize qi + 1}</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>140: </span><a class=annot href="#"><span class=annottext>forall a .
+a -&gt; x2:(LHExercises.Queue a) -&gt; {VV : (LHExercises.Queue a) | qsize VV == qsize x2 + 1}</span><span class='hs-definition'>insert</span></a> <a class=annot href="#"><span class=annottext>a</span><span class='hs-varid'>e</span></a> <span class='hs-layout'>(</span><span class='hs-conid'>Q</span> <span class='hs-varid'>f</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+      x1:(LHExercises.SList a) -&gt; x2:{v : (LHExercises.SList a) | size v &lt;= size x1 + 1} -&gt; {v : (LHExercises.Queue a) | qsize v == size x1 + size x2} | VV == makeq}</span><span class='hs-varid'>makeq</span></a> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == f}</span><span class='hs-varid'>f</span></a> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | size v == size b + 1}</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>{VV : a | VV == e}</span><span class='hs-varid'>e</span></a> <span class='hs-varop'>`cons`</span> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == b
+                             &amp;&amp; size v &lt;= size f}</span><span class='hs-varid'>b</span></a><span class='hs-layout'>)</span>
 <span class=hs-linenum>141: </span>
-<span class=hs-linenum>142: </span><span class='hs-comment'>-- {-@ replicate :: n:Nat -&gt; a -&gt; QueueN a n @-}</span>
-<span class=hs-linenum>143: </span><span class='hs-comment'>-- replicate 0 _ = emp</span>
-<span class=hs-linenum>144: </span><span class='hs-comment'>-- replicate n x = insert x (replicate (n-1) x)</span>
-<span class=hs-linenum>145: </span>
-<span class=hs-linenum>146: </span><span class='hs-comment'>-- {-@ okReplicate :: QueueN _ 3 @-}</span>
-<span class=hs-linenum>147: </span><span class='hs-comment'>-- okReplicate = replicate 3 "Yeah!"</span>
-<span class=hs-linenum>148: </span><span class='hs-comment'>-- -- accept</span>
-<span class=hs-linenum>149: </span>
-<span class=hs-linenum>150: </span><span class='hs-comment'>-- {-@ badReplicate :: QueueN _ 3 @-}</span>
-<span class=hs-linenum>151: </span><span class='hs-comment'>-- badReplicate = replicate 1 "No!"</span>
-<span class=hs-linenum>152: </span><span class='hs-comment'>-- -- reject</span></pre>
+<span class=hs-linenum>142: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>replicate</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>n</span><span class='hs-conop'>:</span><span class='hs-conid'>Nat</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>QueueN</span> <span class='hs-varid'>a</span> <span class='hs-varid'>n</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>143: </span><span class='hs-definition'>replicate</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Int</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Queue</span> <span class='hs-varid'>a</span>  <span class='hs-comment'>-- it does not work without this. Check https://github.com/ucsd-progsys/liquidhaskell/issues/1644</span>
+<span class=hs-linenum>144: </span><a class=annot href="#"><span class=annottext>forall a .
+x1:{VV : GHC.Types.Int | VV &gt;= 0} -&gt; a -&gt; {VV : (LHExercises.Queue a) | qsize VV == x1}</span><span class='hs-definition'>replicate</span></a> <span class='hs-num'>0</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+      {v : (LHExercises.Queue a) | qsize v == 0} | VV == emp}</span><span class='hs-varid'>emp</span></a>
+<span class=hs-linenum>145: </span><span class='hs-definition'>replicate</span> <span class='hs-varid'>n</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+      a -&gt; x2:(LHExercises.Queue a) -&gt; {v : (LHExercises.Queue a) | qsize v == qsize x2 + 1} | VV == insert}</span><span class='hs-varid'>insert</span></a> <a class=annot href="#"><span class=annottext>a</span><span class='hs-varid'>x</span></a> <a class=annot href="#"><span class=annottext>(LHExercises.Queue a)</span><span class='hs-layout'>(</span></a><span class='hs-varid'>replicate</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v &gt;= 0}</span><span class='hs-varid'>n</span></a><span class='hs-comment'>-</span><a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-num'>1</span></a><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>a</span><span class='hs-varid'>x</span></a><span class='hs-layout'>)</span>
+<span class=hs-linenum>146: </span>
+<span class=hs-linenum>147: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>okReplicate</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>QueueN</span> <span class='hs-keyword'>_</span> <span class='hs-num'>3</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>148: </span><a class=annot href="#"><span class=annottext>{VV : (LHExercises.Queue [GHC.Types.Char]) | qsize VV == 3}</span><span class='hs-definition'>okReplicate</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>replicate</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-num'>3</span></a> <a class=annot href="#"><span class=annottext>[GHC.Types.Char]</span><span class='hs-str'>"Yeah!"</span></a>
+<span class=hs-linenum>149: </span><span class='hs-comment'>-- accept</span>
+<span class=hs-linenum>150: </span>
+<span class=hs-linenum>151: </span><span class='hs-comment'>-- {-@ badReplicate :: QueueN _ 3 @-}</span>
+<span class=hs-linenum>152: </span><span class='hs-comment'>-- badReplicate = replicate 1 "No!"</span>
+<span class=hs-linenum>153: </span><span class='hs-comment'>-- -- reject</span></pre>
 </body>
 </html>

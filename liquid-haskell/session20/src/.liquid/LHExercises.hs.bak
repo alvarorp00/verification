@@ -4,7 +4,7 @@ module LHExercises where
 import Data.Maybe as Maybe
 import Data.Tuple as Tuple
 
--- import Prelude
+import Prelude hiding (replicate)
 
 -- Exercise 1:  Define a Skew heap in Liquid Haskell and implement
 -- and verify its operation join, joining two skew heaps 
@@ -136,16 +136,17 @@ example0Q = Q nil nil
 
 -- TODO
 -- | Insert an element into a queue
--- {-@ insert :: x:a -> qi:Queue a -> QueueN a {qsize qi + 1} @-}
--- insert e (Q f b) = makeq f (e `cons` b)
+{-@ insert :: x:a -> qi:QueueN a {qsize qi} -> QueueN a {qsize qi + 1} @-}
+insert e (Q f b) = makeq f (e `cons` b)
 
--- {-@ replicate :: n:Nat -> a -> QueueN a n @-}
--- replicate 0 _ = emp
--- replicate n x = insert x (replicate (n-1) x)
+{-@ replicate :: n:Nat -> a -> QueueN a n @-}
+replicate :: Int -> a -> Queue a  -- it does not work without this. Check https://github.com/ucsd-progsys/liquidhaskell/issues/1644
+replicate 0 _ = emp
+replicate n x = insert x (replicate (n-1) x)
 
--- {-@ okReplicate :: QueueN _ 3 @-}
--- okReplicate = replicate 3 "Yeah!"
--- -- accept
+{-@ okReplicate :: QueueN _ 3 @-}
+okReplicate = replicate 3 "Yeah!"
+-- accept
 
 -- {-@ badReplicate :: QueueN _ 3 @-}
 -- badReplicate = replicate 1 "No!"
