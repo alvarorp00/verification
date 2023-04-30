@@ -108,19 +108,21 @@ rot f b acc
 -- ##########
 
 -- Safe remove
-{-@ remove :: qi:QueueN a {qsize qi} -> mq: Maybe (a, QueueN a {qsize qi - 1}) @-}
-remove qi@(Q f b)
+{-@ removeMaybe :: qi:QueueN a {qsize qi} -> mq: Maybe (a, QueueN a {qsize qi - 1}) @-}
+removeMaybe qi@(Q f b)
   | size f == 0 && size b == 0 = Nothing
   | size f == 0 = Just (hd (rot b nil nil), Q (rot b nil nil) nil)
   | otherwise = Just (hd f, makeq (tl f) b)
 
+{-@ remove :: {qi:QueueN a {qsize qi} | qsize qi > 0} -> (a, QueueN a {qsize qi - 1}) @-}
+remove (Q f b) = (hd f, makeq (tl f) b)
 
-{-@ okRemove :: Maybe (_, QueueN _ 1) @-}
+-- {-@ okRemove :: Maybe (_, QueueN _ 1) @-}
 okRemove = remove example2Q -- accept
 
-badRemove = remove example0Q -- reject
+-- badRemove = remove example0Q -- reject
 
-{-@ emp :: QueueN _ 0 @-}
+{-@ emp :: QueueN _ 0 @-} 
 emp = Q nil nil
 
 {-@ example2Q :: QueueN _ 2 @-}
@@ -131,3 +133,20 @@ example0Q = Q nil nil
 
 -- Exercise 9.4
 --
+
+-- TODO
+-- | Insert an element into a queue
+-- {-@ insert :: x:a -> qi:Queue a -> QueueN a {qsize qi + 1} @-}
+-- insert e (Q f b) = makeq f (e `cons` b)
+
+-- {-@ replicate :: n:Nat -> a -> QueueN a n @-}
+-- replicate 0 _ = emp
+-- replicate n x = insert x (replicate (n-1) x)
+
+-- {-@ okReplicate :: QueueN _ 3 @-}
+-- okReplicate = replicate 3 "Yeah!"
+-- -- accept
+
+-- {-@ badReplicate :: QueueN _ 3 @-}
+-- badReplicate = replicate 1 "No!"
+-- -- reject

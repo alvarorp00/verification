@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
 <head>
-<title>/home/alvarorp00/Documents/uam/master/verification/liquid-haskell/session20/src/LHExercises.hs</title>
+<title>src/LHExercises.hs</title>
 </head>
 <head>
 <link type='text/css' rel='stylesheet' href='liquid.css' />
@@ -157,9 +157,9 @@ x1:(LHExercises.SList a) -&gt; x2:{VV : (LHExercises.SList a) | size VV == size 
 <span class=hs-linenum>108: </span><span class='hs-comment'>-- ##########</span>
 <span class=hs-linenum>109: </span>
 <span class=hs-linenum>110: </span><span class='hs-comment'>-- Safe remove</span>
-<span class=hs-linenum>111: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>remove</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>qi</span><span class='hs-conop'>:</span><span class='hs-conid'>QueueN</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>{qsize qi}</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>mq</span><span class='hs-conop'>:</span> <span class='hs-conid'>Maybe</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>QueueN</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>{qsize qi - 1}</span><span class='hs-layout'>)</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>111: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>removeMaybe</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>qi</span><span class='hs-conop'>:</span><span class='hs-conid'>QueueN</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>{qsize qi}</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>mq</span><span class='hs-conop'>:</span> <span class='hs-conid'>Maybe</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>QueueN</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>{qsize qi - 1}</span><span class='hs-layout'>)</span> <span class='hs-keyword'>@-}</span>
 <span class=hs-linenum>112: </span><a class=annot href="#"><span class=annottext>forall a .
-x1:(LHExercises.Queue a) -&gt; (GHC.Maybe.Maybe (a, {VV : (LHExercises.Queue a) | qsize VV == qsize x1 - 1}))</span><span class='hs-definition'>remove</span></a> <a class=annot href="#"><span class=annottext>(LHExercises.Queue a)</span><span class='hs-varid'>qi</span></a><span class='hs-keyglyph'>@</span><span class='hs-layout'>(</span><span class='hs-conid'>Q</span> <span class='hs-varid'>f</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span>
+x1:(LHExercises.Queue a) -&gt; (GHC.Maybe.Maybe (a, {VV : (LHExercises.Queue a) | qsize VV == qsize x1 - 1}))</span><span class='hs-definition'>removeMaybe</span></a> <a class=annot href="#"><span class=annottext>(LHExercises.Queue a)</span><span class='hs-varid'>qi</span></a><span class='hs-keyglyph'>@</span><span class='hs-layout'>(</span><span class='hs-conid'>Q</span> <span class='hs-varid'>f</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span>
 <span class=hs-linenum>113: </span>  <span class='hs-keyglyph'>|</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == size f
                      &amp;&amp; v &gt;= 0}</span><span class='hs-varid'>size</span></a> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == f}</span><span class='hs-varid'>f</span></a> <span class='hs-varop'>==</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-num'>0</span></a> <span class='hs-varop'>&amp;&amp;</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == size b
                      &amp;&amp; v &gt;= 0}</span><span class='hs-varid'>size</span></a> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == b
@@ -183,30 +183,54 @@ x1:(LHExercises.Queue a) -&gt; (GHC.Maybe.Maybe (a, {VV : (LHExercises.Queue a) 
                                          &amp;&amp; lqdc##$select v == x1} | VV == Just}</span><span class='hs-conid'>Just</span></a> <a class=annot href="#"><span class=annottext>(a, (LHExercises.Queue a))</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>a</span><span class='hs-varid'>hd</span></a> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == f}</span><span class='hs-varid'>f</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>(LHExercises.Queue a)</span><span class='hs-varid'>makeq</span></a> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | size v == size f - 1}</span><span class='hs-layout'>(</span></a><span class='hs-varid'>tl</span> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == f}</span><span class='hs-varid'>f</span></a><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == b
                              &amp;&amp; size v &lt;= size f}</span><span class='hs-varid'>b</span></a><span class='hs-layout'>)</span>
 <span class=hs-linenum>116: </span>
-<span class=hs-linenum>117: </span>
-<span class=hs-linenum>118: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>okRemove</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Maybe</span> <span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-conid'>QueueN</span> <span class='hs-keyword'>_</span> <span class='hs-num'>1</span><span class='hs-layout'>)</span> <span class='hs-keyword'>@-}</span>
-<span class=hs-linenum>119: </span><a class=annot href="#"><span class=annottext>(GHC.Maybe.Maybe (GHC.Num.Integer.Integer, {VV : (LHExercises.Queue GHC.Num.Integer.Integer) | qsize VV == 1}))</span><span class='hs-definition'>okRemove</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>remove</span> <a class=annot href="#"><span class=annottext>{v : (LHExercises.Queue GHC.Num.Integer.Integer) | v == example2Q
+<span class=hs-linenum>117: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>remove</span> <span class='hs-keyglyph'>::</span> <span class='hs-keyword'>{qi:</span><span class='hs-conid'>QueueN</span> <span class='hs-varid'>a</span> <span class='hs-layout'>{</span><span class='hs-varid'>qsize</span> <span class='hs-varid'>qi</span><span class='hs-layout'>}</span><span class='hs-keyword'> </span><span class='hs-keyglyph'>|</span> <span class='hs-varid'>qsize</span> <span class='hs-varid'>qi</span> <span class='hs-varop'>&gt;</span> <span class='hs-num'>0</span><span class='hs-layout'>}</span><span class='hs-keyword'> -&gt; (a, QueueN a </span><span class='hs-layout'>{</span><span class='hs-varid'>qsize</span> <span class='hs-varid'>qi</span> <span class='hs-comment'>-</span> <span class='hs-num'>1</span><span class='hs-layout'>}</span><span class='hs-keyword'>) </span><span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>118: </span><a class=annot href="#"><span class=annottext>forall a .
+x1:{VV : (LHExercises.Queue a) | qsize VV &gt; 0} -&gt; (a, {VV : (LHExercises.Queue a) | qsize VV == qsize x1 - 1})</span><span class='hs-definition'>remove</span></a> <span class='hs-layout'>(</span><span class='hs-conid'>Q</span> <span class='hs-varid'>f</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : forall a b &lt;p2 :: a b -&gt; Bool&gt;.
+      x1:a -&gt; x2:{VV : b&lt;p2 x1&gt; | true} -&gt; {v : (a, b)&lt;\x5 VV -&gt; {VV : b&lt;p2 x5&gt; | true}&gt; | fst v == x1
+                                                                                           &amp;&amp; snd v == x2
+                                                                                           &amp;&amp; x_Tuple21 v == x1
+                                                                                           &amp;&amp; x_Tuple22 v == x2} | VV == (,)}</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>a</span><span class='hs-varid'>hd</span></a> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == f}</span><span class='hs-varid'>f</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>(LHExercises.Queue a)</span><span class='hs-varid'>makeq</span></a> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | size v == size f - 1}</span><span class='hs-layout'>(</span></a><span class='hs-varid'>tl</span> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == f}</span><span class='hs-varid'>f</span></a><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : (LHExercises.SList a) | v == b
+                             &amp;&amp; size v &lt;= size f}</span><span class='hs-varid'>b</span></a><span class='hs-layout'>)</span>
+<span class=hs-linenum>119: </span>
+<span class=hs-linenum>120: </span><span class='hs-comment'>-- {-@ okRemove :: Maybe (_, QueueN _ 1) @-}</span>
+<span class=hs-linenum>121: </span><a class=annot href="#"><span class=annottext>(GHC.Num.Integer.Integer, (LHExercises.Queue GHC.Num.Integer.Integer))</span><span class='hs-definition'>okRemove</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>remove</span> <a class=annot href="#"><span class=annottext>{v : (LHExercises.Queue GHC.Num.Integer.Integer) | v == example2Q
                                                    &amp;&amp; qsize v == 2}</span><span class='hs-varid'>example2Q</span></a> <span class='hs-comment'>-- accept</span>
-<span class=hs-linenum>120: </span>
-<span class=hs-linenum>121: </span><a class=annot href="#"><span class=annottext>forall a . (GHC.Maybe.Maybe (a, (LHExercises.Queue a)))</span><span class='hs-definition'>badRemove</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>remove</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
-      {v : (LHExercises.Queue a) | qsize v == 0} | VV == example0Q}</span><span class='hs-varid'>example0Q</span></a> <span class='hs-comment'>-- reject</span>
 <span class=hs-linenum>122: </span>
-<span class=hs-linenum>123: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>emp</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>QueueN</span> <span class='hs-keyword'>_</span> <span class='hs-num'>0</span> <span class='hs-keyword'>@-}</span>
-<span class=hs-linenum>124: </span><a class=annot href="#"><span class=annottext>forall a . {VV : (LHExercises.Queue a) | qsize VV == 0}</span><span class='hs-definition'>emp</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Q</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+<span class=hs-linenum>123: </span><span class='hs-comment'>-- badRemove = remove example0Q -- reject</span>
+<span class=hs-linenum>124: </span>
+<span class=hs-linenum>125: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>emp</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>QueueN</span> <span class='hs-keyword'>_</span> <span class='hs-num'>0</span> <span class='hs-keyword'>@-}</span> 
+<span class=hs-linenum>126: </span><a class=annot href="#"><span class=annottext>forall a . {VV : (LHExercises.Queue a) | qsize VV == 0}</span><span class='hs-definition'>emp</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Q</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
       {v : (LHExercises.SList a) | size v == 0} | VV == nil}</span><span class='hs-varid'>nil</span></a> <a class=annot href="#"><span class=annottext>{VV : forall a .
       {v : (LHExercises.SList a) | size v == 0} | VV == nil}</span><span class='hs-varid'>nil</span></a>
-<span class=hs-linenum>125: </span>
-<span class=hs-linenum>126: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>example2Q</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>QueueN</span> <span class='hs-keyword'>_</span> <span class='hs-num'>2</span> <span class='hs-keyword'>@-}</span>
-<span class=hs-linenum>127: </span><a class=annot href="#"><span class=annottext>{VV : (LHExercises.Queue GHC.Num.Integer.Integer) | qsize VV == 2}</span><span class='hs-definition'>example2Q</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Q</span> <a class=annot href="#"><span class=annottext>(LHExercises.SList GHC.Num.Integer.Integer)</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>{v : GHC.Num.Integer.Integer | v == 1}</span><span class='hs-num'>1</span></a> <span class='hs-varop'>`cons`</span> <a class=annot href="#"><span class=annottext>(LHExercises.SList GHC.Num.Integer.Integer)</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>{v : GHC.Num.Integer.Integer | v == 2}</span><span class='hs-num'>2</span></a> <span class='hs-varop'>`cons`</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+<span class=hs-linenum>127: </span>
+<span class=hs-linenum>128: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>example2Q</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>QueueN</span> <span class='hs-keyword'>_</span> <span class='hs-num'>2</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>129: </span><a class=annot href="#"><span class=annottext>{VV : (LHExercises.Queue GHC.Num.Integer.Integer) | qsize VV == 2}</span><span class='hs-definition'>example2Q</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Q</span> <a class=annot href="#"><span class=annottext>(LHExercises.SList GHC.Num.Integer.Integer)</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>{v : GHC.Num.Integer.Integer | v == 1}</span><span class='hs-num'>1</span></a> <span class='hs-varop'>`cons`</span> <a class=annot href="#"><span class=annottext>(LHExercises.SList GHC.Num.Integer.Integer)</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>{v : GHC.Num.Integer.Integer | v == 2}</span><span class='hs-num'>2</span></a> <span class='hs-varop'>`cons`</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
       {v : (LHExercises.SList a) | size v == 0} | VV == nil}</span><span class='hs-varid'>nil</span></a><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
       {v : (LHExercises.SList a) | size v == 0} | VV == nil}</span><span class='hs-varid'>nil</span></a>
-<span class=hs-linenum>128: </span>
-<span class=hs-linenum>129: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>example0Q</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>QueueN</span> <span class='hs-keyword'>_</span> <span class='hs-num'>0</span> <span class='hs-keyword'>@-}</span>
-<span class=hs-linenum>130: </span><a class=annot href="#"><span class=annottext>forall a . {VV : (LHExercises.Queue a) | qsize VV == 0}</span><span class='hs-definition'>example0Q</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Q</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
+<span class=hs-linenum>130: </span>
+<span class=hs-linenum>131: </span><span class='hs-keyword'>{-@</span> <span class='hs-varid'>example0Q</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>QueueN</span> <span class='hs-keyword'>_</span> <span class='hs-num'>0</span> <span class='hs-keyword'>@-}</span>
+<span class=hs-linenum>132: </span><a class=annot href="#"><span class=annottext>forall a . {VV : (LHExercises.Queue a) | qsize VV == 0}</span><span class='hs-definition'>example0Q</span></a> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Q</span> <a class=annot href="#"><span class=annottext>{VV : forall a .
       {v : (LHExercises.SList a) | size v == 0} | VV == nil}</span><span class='hs-varid'>nil</span></a> <a class=annot href="#"><span class=annottext>{VV : forall a .
       {v : (LHExercises.SList a) | size v == 0} | VV == nil}</span><span class='hs-varid'>nil</span></a>
-<span class=hs-linenum>131: </span>
-<span class=hs-linenum>132: </span><span class='hs-comment'>-- Exercise 9.4</span>
-<span class=hs-linenum>133: </span><span class='hs-comment'>--</span></pre>
+<span class=hs-linenum>133: </span>
+<span class=hs-linenum>134: </span><span class='hs-comment'>-- Exercise 9.4</span>
+<span class=hs-linenum>135: </span><span class='hs-comment'>--</span>
+<span class=hs-linenum>136: </span>
+<span class=hs-linenum>137: </span><span class='hs-comment'>-- TODO</span>
+<span class=hs-linenum>138: </span><span class='hs-comment'>-- | Insert an element into a queue</span>
+<span class=hs-linenum>139: </span><span class='hs-comment'>-- {-@ insert :: x:a -&gt; qi:Queue a -&gt; QueueN a {qsize qi + 1} @-}</span>
+<span class=hs-linenum>140: </span><span class='hs-comment'>-- insert e (Q f b) = makeq f (e `cons` b)</span>
+<span class=hs-linenum>141: </span>
+<span class=hs-linenum>142: </span><span class='hs-comment'>-- {-@ replicate :: n:Nat -&gt; a -&gt; QueueN a n @-}</span>
+<span class=hs-linenum>143: </span><span class='hs-comment'>-- replicate 0 _ = emp</span>
+<span class=hs-linenum>144: </span><span class='hs-comment'>-- replicate n x = insert x (replicate (n-1) x)</span>
+<span class=hs-linenum>145: </span>
+<span class=hs-linenum>146: </span><span class='hs-comment'>-- {-@ okReplicate :: QueueN _ 3 @-}</span>
+<span class=hs-linenum>147: </span><span class='hs-comment'>-- okReplicate = replicate 3 "Yeah!"</span>
+<span class=hs-linenum>148: </span><span class='hs-comment'>-- -- accept</span>
+<span class=hs-linenum>149: </span>
+<span class=hs-linenum>150: </span><span class='hs-comment'>-- {-@ badReplicate :: QueueN _ 3 @-}</span>
+<span class=hs-linenum>151: </span><span class='hs-comment'>-- badReplicate = replicate 1 "No!"</span>
+<span class=hs-linenum>152: </span><span class='hs-comment'>-- -- reject</span></pre>
 </body>
 </html>
