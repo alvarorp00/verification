@@ -122,6 +122,10 @@ okRemove = remove example2Q -- accept
 
 -- badRemove = remove example0Q -- reject
 
+okRemoveMaybe = removeMaybe example2Q -- accept
+
+badRemoveMaybe = removeMaybe example0Q -- reject
+
 {-@ emp :: QueueN _ 0 @-} 
 emp = Q nil nil
 
