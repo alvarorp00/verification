@@ -84,11 +84,7 @@ decreases l2
                 case Cons(y, ys)    =>
                     if x < y then
                         var auxL1 := insertSorted(xs,y);
-                        assert sorted(xs);
-                        assert sorted(Cons(y,Nil));
-                        assert sorted(auxL1);
                         var auxL2 := Cons(x, auxL1);
-                        assert x < y;
                         union(auxL2, ys)
                     else
                         if x == y then
