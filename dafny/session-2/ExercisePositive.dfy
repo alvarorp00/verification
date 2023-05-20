@@ -4,39 +4,19 @@ predicate positive(s:seq<int>)
 method mpositive(v:array<int>) returns (b:bool)
 ensures b == positive(v[..])
 {
-    var i := 0;
-    while (i < v.Length && v[i] >= 0)
+    var i:int := 0;
+
+    b := true;
+
+    while (i < v.Length)
+        decreases v.Length - i
         invariant 0 <= i <= v.Length
-        invariant positive(v[..i])
-        { i := i + 1;}
+        invariant b == positive(v[..i])
+        // invariant b == ( forall j | 0 <= j < i :: v[j] >= 0)
+    {
+        if (v[i] < 0) {
+            b := false;
+        }
+        i := i + 1;
+    }
 }
-
-// predicate positive(a:array<int>, i:int)
-// reads a
-// requires 0<=i<=a.Length
-// {forall u :: 0 <= u < a.Length ==> a[u] > 0}
-
-// method mpositive(v:array<int>) returns (b:bool)
-// ensures b==positive(v, v.Length)
-// {
-//     var i := 0;
-//     while (i < v.Length && v[i] >= 0)
-//         invariant 0 <= i <= v.Length
-//         invariant positive(v, i)
-//         { i := i + 1;}
-//     b := (i == v.Length);
-// }
-
-// method mpositive2(v:array<int>) returns (b:bool)
-// ensures b == positive(v, v.Length)
-// {
-//     var i := 0; b := true;
-//     while i < v.Length && b
-//         invariant 0 <= i <= v.Length
-//         invariant b == positive(v, i)
-//         {
-//             b := v[i] >= 0;
-//             i := i + 1;
-//         }
-
-// }

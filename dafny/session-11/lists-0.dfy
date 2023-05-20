@@ -129,11 +129,21 @@ ensures elems(res) == elems(l)
 {
     match l
         case Nil        => Nil
-        case Cons(y,ys) => insert(reverse(ys), y)
+        case Cons(x,xs) =>
+            concat(reverse(xs),Cons(x,Nil))
+
 }
 
 // 3. specify, write the code of this function, and verify it
 
 function method concat(l1:List<int>,l2:List<int>): (res:List<int>)
-// TODO
+ensures elems(res) == elems(l1) + elems(l2)
+ensures length(res) == length(l1) + length(l2)
+{
+    match l1
+        case Nil        => l2
+        case Cons(x,xs) =>
+            Cons(x,concat(xs,l2))
+                    
+}
 

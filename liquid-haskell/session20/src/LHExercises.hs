@@ -2,7 +2,7 @@
 module LHExercises where
 
 import Data.Maybe as Maybe
-import Data.Tuple as Tuple
+import Data.Tuple as Tuple()
 
 import Prelude hiding (replicate)
 

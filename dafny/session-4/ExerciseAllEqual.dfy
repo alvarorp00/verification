@@ -1,5 +1,7 @@
 predicate allEqual(s:seq<int>)
-{forall i,j::0<=i<|s| && 0<=j<|s| ==> s[i]==s[j] }
+{
+    forall i,j | 0<=i<|s| && 0<=j<|s| :: s[i] == s[j]
+}
 //{forall i,j::0<=i<=j<|s| ==> s[i]==s[j] }
 //{forall i::0<i<|s| ==> s[i-1]==s[i]} 
 //{forall i::0<=i<|s|-1 ==> s[i]==s[i+1]}
@@ -16,45 +18,68 @@ requires s!=[]
 ensures allEqual(s) <==> (forall i::0<=i<|s| ==> s[0]==s[i])
 {}
 
+lemma equivalenceContiguous1(s:seq<int>)
+requires allEqual(s)
+ensures forall i | 0 <= i < |s| - 1 :: s[i] == s[i+1]
+{}
 
+lemma equivalenceContiguous2(s:seq<int>)
+requires forall i | 0 <= i < |s| - 1 :: s[i] == s[i+1]
+ensures allEqual(s)
+{
+    assert forall i | 0 <= i < |s| - 1 :: s[i] == s[i+1];
+    if (|s| == 0) {
+        assert allEqual(s);
+    } else {
+        equivalenceContiguous2(s[..|s|-1]);
+        assert allEqual(s[..|s|-1]);
+        assert forall i | 0 <= i < |s| - 1 :: s[i] == s[i+1] ==> s[|s|-2] == s[|s|-1];
+    }
+}
 
 lemma equivalenceContiguous(s:seq<int>)
-ensures (allEqual(s) <==> forall i::0<=i<|s|-1 ==> s[i]==s[i+1])
-//Prove this!!
+ensures allEqual(s) <==> forall i | 0 <= i < |s| - 1 :: s[i] == s[i+1]
+{
+    if (forall i | 0 <= i < |s| - 1 :: s[i] == s[i+1]) {
+        equivalenceContiguous2(s);
+    } else if(allEqual(s)) {
+        equivalenceContiguous1(s);
+    }
+}
 
 
 
-// method mallEqual1(v:array<int>) returns (b:bool)
-// ensures b==allEqual(v[0..v.Length])
-// {
-//      var i := 0;
-//      b := true;
-//     while (i < v.Length && b) 
-// 	   invariant //
-// 	   decreases //
-// 	  { 
-//        b:=(v[i]==v[0]);
-//        i := i+1;
+method mallEqual1(v:array<int>) returns (b:bool)
+ensures b==allEqual(v[0..v.Length])
+{
+     var i := 0;
+     b := true;
+    while (i < v.Length && b) 
+	   decreases v.Length - i
+	   invariant 0 <= i <= v.Length
+       invariant b == allEqual(v[0..i])
+	  { 
+       b:=(v[i]==v[0]);
+       i := i+1;
     
-// 	  }
-// }
+	  }
+}
 
-// method mallEqual2(v:array<int>) returns (b:bool)
-// ensures b==allEqual(v[0..v.Length])
-// {var i:int; 
-
-//   b:=true;
-  
-//   i:=0;
-//   while (i<v.Length && v[i]==v[0])
-// 	 invariant //
-//    invariant //
-// 	 decreases //
-// 	 {i:=i+1;
-// 	 }
-// 	 b:=(i==v.Length);
-
-// }
+method mallEqual2(v:array<int>) returns (b:bool)
+ensures b==allEqual(v[0..v.Length])
+{
+    var i:int; 
+    b:=true;
+    i:=0;
+    while (i < v.Length && v[i]==v[0])
+        decreases v.Length - i
+        invariant 0 <= i <= v.Length
+        invariant allEqual(v[0..i])
+    {
+        i:=i+1;
+    }
+    b:= (i==v.Length);
+}
 
 
 

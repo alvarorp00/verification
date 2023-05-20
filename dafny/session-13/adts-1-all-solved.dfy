@@ -181,7 +181,7 @@ ensures sorted(concat(l1,l2))
             case Cons(head2,tail2)   =>
                {
                   assert l2.head in elems(l2);
-                  assert forall e | e in elems(l1) :: e <= head2;
+                  // assert forall e | e in elems(l1) :: e <= head2;
                   sortedHeadLE(l2);
                   assert forall e | e in elems(l2) :: head2 <= e;
                   assert forall e | e in elems(tail1) :: e in elems(l1);
@@ -456,14 +456,14 @@ ensures sortedSeq(res)
       else
          assert x > s[0];
          sortedSeqHead(s[0], insertSortedSeq(x, s[1..]));
-         assert multiset(insertSortedSeq(x, s[1..])) == multiset(s[1..]) + multiset{x};
+         // assert multiset(insertSortedSeq(x, s[1..])) == multiset(s[1..]) + multiset{x};
          multisetSeqSum([s[0]], insertSortedSeq(x, s[1..]));
-         assert multiset([s[0]] + insertSortedSeq(x, s[1..])) == multiset([s[0]]) + multiset(insertSortedSeq(x, s[1..]));
-         assert multiset(insertSortedSeq(x, s[1..])) == multiset{x} + multiset(s[1..]);
-         assert multiset([s[0]] + insertSortedSeq(x, s[1..])) == multiset{x} + multiset([s[0]]) + multiset(s[1..]);
+         // assert multiset([s[0]] + insertSortedSeq(x, s[1..])) == multiset([s[0]]) + multiset(insertSortedSeq(x, s[1..]));
+         // assert multiset(insertSortedSeq(x, s[1..])) == multiset{x} + multiset(s[1..]);
+         // assert multiset([s[0]] + insertSortedSeq(x, s[1..])) == multiset{x} + multiset([s[0]]) + multiset(s[1..]);
          seqSum(s);
-         assert multiset([s[0]]) + multiset(s[1..]) == multiset(s);
-         assert multiset([s[0]] + insertSortedSeq(x, s[1..])) == multiset(s) + multiset{x};
+         // assert multiset([s[0]]) + multiset(s[1..]) == multiset(s);
+         // assert multiset([s[0]] + insertSortedSeq(x, s[1..])) == multiset(s) + multiset{x};
          [s[0]] + insertSortedSeq(x, s[1..])
 }
 

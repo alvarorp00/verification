@@ -67,14 +67,40 @@ method {:tailrecursion  false} binarySearchRec(v:array<int>, elem:int, c:int, f:
  
 
 
-  method otherbSearch(v:array<int>, elem:int) returns (b:bool,p:int)
- requires sorted(v[0..v.Length])
- ensures 0<=p<=v.Length
- ensures b == (elem in v[0..v.Length])
- ensures b ==> p<v.Length && v[p]==elem
- ensures !b ==> (forall u::0<=u<p ==> v[u]<elem) && 
-               (forall w::p<=w<v.Length ==> v[w]>elem)
- //Implement and verify
+method otherbSearch(v:array<int>, elem:int) returns (b:bool,p:int)
+requires v.Length > 0
+requires sorted(v[0..v.Length])
+ensures 0 <= p <= v.Length
+ensures b == (elem in v[0..v.Length])
+ensures b ==> p < v.Length && v[p] == elem
+ensures !b ==> ((forall u | 0 <= u < p :: v[u] < elem) && 
+               (forall w | p <= w < v.Length :: v[w] > elem))
+{
+   var l:int, h:int;
+
+   l := 0; h := v.Length;
+   b := false;
+   p := 0;
+
+   while (l < h)
+      decreases h - l
+      invariant 0 <= l <= v.Length;
+      invariant 0 <= h <= v.Length; 
+      invariant 0 <= p <= v.Length;
+      invariant b == (elem in v[l..h]);
+   {
+      p := (h - l) / 2;
+
+      if (v[p] == elem) {
+         p := p;
+         b := true;
+      } else if (v[p] < elem) {
+         h := p;
+      } else {
+         l := p;
+      }
+   }
+}
  
 
  

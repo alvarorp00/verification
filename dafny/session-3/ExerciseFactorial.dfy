@@ -81,29 +81,34 @@ ensures factorial(2*n) < exp(2,2*n) * exp(factorial(n),2)
 {
   // Base case
   if (n == 1) {
-    calc {
-      factorial(2*1) < exp(2,2*1) * exp(factorial(1),2);
-      ==
-      2 < 4 * 1;
-    }
     assert 2 < 4 * 1;
     assert factorial(2*1) < exp(2,2*1) * exp(factorial(1),2);
   }
   else {
     exp2n_Lemma(n-1);
-    calc {
-      factorial(2*n) < exp(2,2*n) * exp(factorial(n),2);
-      ==
-      { assert factorial(2*n) == (2*n) * (2*n - 1) * factorial(2*n - 2); }
-      { assert exp(2,2*n) == exp(2,2*(n-1)) * 2 * 2; }
-      { assert exp(factorial(n), 2) == exp(factorial(n-1),2) * exp(n,2); }
-      (2*n) * (2*n - 1) * factorial(2*n - 2) < 4 * exp(2, 2*n - 2) * n * n * exp(factorial(n-1),2);
-      ==
-      factorial(2*n - 2) < exp(2, 2*n - 2) * exp(factorial(n-1),2) && (2*n) * (2*n - 1) < 4 * n * n;
-      ==
-      { assert (2*n) * (2*n - 1) < 4 * n * n;}
-      factorial(2*n - 2) < exp(2, 2*n - 2) * exp(factorial(n-1),2);
-    }
-    assert factorial(2*n - 2) < exp(2, 2*n - 2) * exp(factorial(n-1),2);
+  }
+}
+
+lemma exp21 (n:int)
+ensures exp(n,2) == n * n
+{}
+
+lemma exp22 (n:int)
+ensures n * n == exp(n,2)
+{}
+
+////////////////////////////////////////////////////////////////////
+
+//Use calculations to prove this lemma
+lemma {:timeLimitMultiplier 10} exp2n_Lemma2(n:int)
+decreases n
+requires n >= 1
+ensures factorial(2*n) < exp(2,2*n) * exp(factorial(n),2)
+{
+  if (n == 1) {
+    assert factorial(2*n) == factorial(2) == 2;
+    assert factorial(2) < exp(2,2*n) * exp(factorial(n), 2);
+  } else {
+    exp2n_Lemma2(n-1);
   }
 }

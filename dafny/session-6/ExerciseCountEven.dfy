@@ -33,7 +33,8 @@ lemma ArrayFacts<T>()
 method mcountEven(v:array<int>) returns (n:int)
 requires positive(v[..])
 ensures  n==CountEven(v[..])
-{ ArrayFacts<int>(); 
+{ 
+  ArrayFacts<int>(); 
   n:=0;
   var i:int;
   i:=0;

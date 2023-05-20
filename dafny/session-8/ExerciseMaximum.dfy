@@ -23,6 +23,22 @@ ensures forall l:: i<l<v.Length ==> v[i]>v[l]
 //Algorithm : from right to left
 
 method mmaxvalue(v:array<int>) returns (m:int)
-requires v.Length>0
+requires v.Length > 0
 ensures m in v[..]
-ensures forall k::0<=k<v.Length ==> m>=v[k]
+ensures forall k | 0 <= k < v.Length :: m >= v[k]
+{
+    var i:int := 1;
+    m := v[0];
+
+    while (i < v.Length)
+        decreases v.Length - i
+        invariant 1 <= i <= v.Length
+        invariant m in v[..i]
+        invariant forall k | 0 <= k < i :: m >= v[k]
+    {
+        if (v[i] > m) {
+            m := v[i];
+        }
+        i := i + 1;
+    }
+}
